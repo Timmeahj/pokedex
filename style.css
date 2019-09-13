@@ -1,7 +1,9 @@
 body{
+  height: 100vh;
   background: url(background.jpg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: auto 100%;
+  overflow: hidden;
 }
 
 .container{
@@ -18,7 +20,17 @@ body{
 
 .picture img{
     height: 100%;
+}
 
+.small{
+  height: 50%!important;
+  margin-top: 17%;
+}
+
+.small2{
+  height: 50%!important;
+  margin-top: 18%;
+  margin-left: 23px;
 }
 
 .picture{
@@ -54,6 +66,7 @@ body{
     text-align: center;
     line-height: 2.5;
     color: whitesmoke;
+    overflow: hidden;
 }
 
 .move1{

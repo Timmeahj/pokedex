@@ -1,5 +1,5 @@
 (() => {
-
+	var input = document.getElementById("search");
 	var searchButton = document.getElementById("goSearch");
 	var evolve1 = document.getElementById("first");
 	var evolve2 = document.getElementById("second");
@@ -32,24 +32,48 @@
 				var shuffledMoves = allMoves.sort(() => 0.5 - Math.random());
 				var moves = shuffledMoves.slice(0, 4);
 
-				var move1 = moves[0].move.name;
-				var move2 = moves[1].move.name;
-				var move3 = moves[2].move.name;
-				var move4 = moves[3].move.name;
+				if(moves.length == 1){
+					var move1 = moves[0].move.name;
+					var move2 = "x";
+					var move3 = "x";
+					var move4 = "x";
+				}
+				if(moves.length == 2){
+					var move1 = moves[0].move.name;
+					var move2 = moves[1].move.name;
+					var move3 = "x";
+					var move4 = "x";
+				}
+				if(moves.length == 3){
+					var move1 = moves[0].move.name;
+					var move2 = moves[1].move.name;
+					var move3 = moves[2].move.name;
+					var move4 = "x";
+				}
+				if(moves.length == 4){
+					var move1 = moves[0].move.name;
+					var move2 = moves[1].move.name;
+					var move3 = moves[2].move.name;
+					var move4 = moves[3].move.name;
+				}
+				
 
 				//put picture
 				document.getElementById("picture").innerHTML = "<img src='"+picture+"'>";
+				if(id>802 && id<808){
+					document.getElementById("picture").innerHTML = "<img class='small' src='ball.png'>";
+				}
 				//put id
 				document.getElementById("id").innerHTML = id;
 
             	//put name
-            	document.getElementById("name").innerHTML = name;
+            	document.getElementById("name").innerHTML = name.replace('-',' ');
 
 	            //put 4 moves
-	            document.getElementById("move1").innerHTML = move1;
-	            document.getElementById("move2").innerHTML = move2;
-	            document.getElementById("move3").innerHTML = move3;
-	            document.getElementById("move4").innerHTML = move4;
+	            document.getElementById("move1").innerHTML = move1.replace('-',' ');;
+	            document.getElementById("move2").innerHTML = move2.replace('-',' ');;
+	            document.getElementById("move3").innerHTML = move3.replace('-',' ');;
+	            document.getElementById("move4").innerHTML = move4.replace('-',' ');;
 
 
 
@@ -109,6 +133,9 @@
 											.then(function(firstEvo) {
 												evolve1.classList.remove("gone");
 												evolve1.innerHTML = "<img src='"+firstEvo.sprites.front_default+"'>";
+												if(id>802 && id<808){
+													evolve1.innerHTML = "<img class='small2' src='ball.png'>";
+												}
 											});
 
 										fetch(two)
@@ -118,6 +145,9 @@
 											.then(function(secondEvo) {
 												evolve2.classList.remove("gone");
 												evolve2.innerHTML = "<img src='"+secondEvo.sprites.front_default+"'>";
+												if(id>802 && id<808){
+													evolve2.innerHTML = "<img class='small2' src='ball.png'>";
+												}
 											});
 										evolve3.innerHTML = "";
 										evolve3.classList.add("gone");
@@ -208,7 +238,15 @@
 	searchButton.addEventListener("click", function() {
 		clearInterval(slide);
 		var search = "https://pokeapi.co/api/v2/pokemon/" + document.getElementById("search").value;  		
-		goEvolution(search);
+		goEvolution(search.toLowerCase());
+	});
+
+	input.addEventListener("keyup", function(event) {
+	  if (event.keyCode === 13) {
+	    clearInterval(slide);
+		var search = "https://pokeapi.co/api/v2/pokemon/" + document.getElementById("search").value;  		
+		goEvolution(search.toLowerCase());
+	  }
 	});
 
 	document.getElementById("previous").addEventListener("click", function() {
