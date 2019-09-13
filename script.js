@@ -14,8 +14,19 @@
 			.then(function(pokemon) {
 
 				var picture = pokemon.sprites.front_default;
-				var id = pokemon.id;
+				id = parseInt(pokemon.id);
+				var nextId = parseInt(id+1);
+				var prevId = parseInt(id-1);
+				next = "https://pokeapi.co/api/v2/pokemon/" + nextId;
+				previous = "https://pokeapi.co/api/v2/pokemon/" + prevId;
 				var name = pokemon.forms[0].name;
+
+				if(id>1){
+					document.getElementById("previous").classList.remove("gone");
+				}
+				if(id<807){
+					document.getElementById("next").classList.remove("gone");
+				}
 
 				var allMoves = pokemon.moves;
 				var shuffledMoves = allMoves.sort(() => 0.5 - Math.random());
@@ -47,7 +58,7 @@
 						return response.json();
 					})
 					.then(function(species) {
-						fetch("" + species.evolution_chain.url + "") 
+						fetch(species.evolution_chain.url) 
 							.then(function(response) {
 								return response.json();
 							})
@@ -198,5 +209,18 @@
 		clearInterval(slide);
 		var search = "https://pokeapi.co/api/v2/pokemon/" + document.getElementById("search").value;  		
 		goEvolution(search);
-	});	        
+	});
+
+	document.getElementById("previous").addEventListener("click", function() {
+		clearInterval(slide);
+		goEvolution(previous);
+	});
+
+	document.getElementById("next").addEventListener("click", function() {
+		clearInterval(slide);
+		goEvolution(next);
+	});
+
+	goEvolution("https://pokeapi.co/api/v2/pokemon/1");
+
 })();

@@ -201,6 +201,51 @@ body{
     text-align: center;
 }
 
+#previous{
+  position: absolute;
+  margin-top: 360px;
+  margin-left: 135px;
+  background: rgba(35,35,35,1);
+  border: 2px solid black;
+  color: white;
+  border-radius: 7px;
+  transition: 0.3s;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  transition: 0.3s;
+}
+
+#next{
+  position: absolute;
+  margin-top: 360px;
+  margin-left: 185px;
+  background: rgba(35,35,35,1);
+  border: 2px solid black;
+  color: white;
+  border-radius: 7px;
+  transition: 0.3s;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  transition: 0.3s;
+}
+
+#previous:hover{
+  background: white;
+  color: black;
+}
+
+#next:hover{
+  background: white;
+  color: black;
+}
+
 .gone{
     display: none;
+}
+
+.cap::first-letter {
+  text-transform: uppercase;
+  overflow: hidden;
 }
