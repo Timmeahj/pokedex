@@ -52,14 +52,12 @@
 								return response.json();
 							})
 							.then(function(evolution) {
-								console.log(evolution, species);
 								//if it evolves
-								if(evolution.chain.evolves_to.length != 0){
+								console.log(evolution, species)
+								if(evolution.chain.evolves_to.length == 1){
 									one = ""+evolution.chain.species.url.replace('-species','')+"";
-
+									console.log(evolution.chain.species.url);
 									two = ""+evolution.chain.evolves_to[0].species.url.replace('-species','')+"";
-
-									
 
 									if(evolution.chain.evolves_to[0].evolves_to[0] != undefined){
 
@@ -115,6 +113,51 @@
 
 									}
 								}
+								if(evolution.chain.evolves_to.length > 1){
+									//exceptions like eevee
+									one = ""+evolution.chain.species.url.replace('-species','')+"";
+									fetch(one)
+										.then(function(response) {
+											return response.json();
+										})
+										.then(function(firstEvo) {
+											evolve1.classList.remove("gone");
+											evolve1.innerHTML = "<img src='"+firstEvo.sprites.front_default+"'>";
+										});
+
+									var i = Math.floor(Math.random() * (evolution.chain.evolves_to.length-1)) + 0;
+									two = ""+evolution.chain.evolves_to[i].species.url.replace('-species','')+"";
+									fetch(two)
+										.then(function(response) {
+											return response.json();
+										})
+										.then(function(secondEvo) {
+											evolve2.classList.remove("gone");
+											evolve2.innerHTML = "<img src='"+secondEvo.sprites.front_default+"'>";
+										});
+
+									slide = setInterval(function(){ 
+										if(i < evolution.chain.evolves_to.length-1){
+											i++;
+										}
+										else{
+											i=0;
+										}
+										console.log(i);
+										two = ""+evolution.chain.evolves_to[i].species.url.replace('-species','')+"";
+										fetch(two)
+											.then(function(response) {
+												return response.json();
+											})
+											.then(function(secondEvo) {
+												evolve2.classList.remove("gone");
+												evolve2.innerHTML = "<img src='"+secondEvo.sprites.front_default+"'>";
+											});
+									}, 1000);
+
+									evolve3.innerHTML = "";
+									evolve3.classList.add("gone");
+								}
 								else{
 									evolve1.innerHTML = "";
 									evolve1.classList.add("gone");
@@ -129,24 +172,30 @@
 	  		});
 	}	 
 
+	slide = 0;
+
 	document.getElementById("first").addEventListener("click", function() {
 		//var one = ""+evolution.chain.species.url.replace('-species','')+"";
+		clearInterval(slide);
 		goEvolution(one);
 	});
 								
 	//if second evolution
 
 	document.getElementById("second").addEventListener("click", function() {
+		clearInterval(slide);
 		goEvolution(two);
 	});
 								
 	//if third evolution
 
 	document.getElementById("third").addEventListener("click", function() {
+		clearInterval(slide);
 		goEvolution(three);
 	});
 
 	searchButton.addEventListener("click", function() {
+		clearInterval(slide);
 		var search = "https://pokeapi.co/api/v2/pokemon/" + document.getElementById("search").value;  		
 		goEvolution(search);
 	});	        
